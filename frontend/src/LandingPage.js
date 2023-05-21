@@ -4,6 +4,7 @@ function FlashcardGenerator() {
   const [selectedOption, setSelectedOption] = useState('whole');
   const [startChapter, setStartChapter] = useState('');
   const [endChapter, setEndChapter] = useState('');
+  const [selectedPDF, setSelectedPDF] = useState(null); 
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -16,11 +17,54 @@ function FlashcardGenerator() {
   const handleEndChapterChange = (event) => {
     setEndChapter(event.target.value);
   };
-
+  
   const handleGenerateFlashcards = () => {
+    // Create a FormData object
+    const formData = new FormData();
+
+    // Append the selectedPDF to the FormData object
+    formData.append('pdf', selectedPDF, 'textbook');
+
+    // Append other data to the FormData object if needed
+    formData.append('selectedOption', selectedOption);
+
+    if (selectedOption === 'Certain') {
+      formData.append('startChapter', startChapter);
+      formData.append('endChapter', endChapter);
+    }
+    for (var pair of formData.entries()) {
+      console.log(pair[0]+ ', ' + pair[1]); 
+    }
+   
+    // Send the FormData object as part of a POST request to your Flask backend
+    fetch('/your-flask-api-endpoint', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response from the Flask backend
+        console.log(data);
+      })
+      .catch((error) => {
+        // Handle any errors
+        console.error(error);
+      });
+  };
+
+  const TestGenerate = (selectedOption, startChapter, endChapter) => {
     // Implement your flashcard generation logic here based on the selected options
-    // You can use the selectedOption, startChapter, and endChapter values to generate flashcards
-    // and display the preview in the component.
+    // Generate and return flashcards in the format of term: definition
+  
+    // Your flashcard generation logic goes here
+    var flashcards = new Object();
+    flashcards['term'] = 'definition'
+    return flashcards;
+  };
+
+  const handlePDFUpload = (event) => {
+    const file = event.target.files[0]; // Access the selected file
+    setSelectedPDF(file); // Store the selected file in the state
   };
 
   return (
@@ -28,7 +72,7 @@ function FlashcardGenerator() {
       <h1>Speed Read Chat</h1>
       <div>
         <label htmlFor="pdfUpload">Upload PDF:</label>
-        <input type="file" id="pdfUpload" accept=".pdf" />
+        <input type="file" id="pdfUpload" accept=".pdf" onChange={handlePDFUpload}/>
       </div>
       <div>
         <input
@@ -74,7 +118,9 @@ function FlashcardGenerator() {
       {/* 
       Display the flashcard preview generated on button click
       Call backend API function, pass in text
-       */}
+       */
+        // change state to flashcard 
+      }
        
     </div>
   );
