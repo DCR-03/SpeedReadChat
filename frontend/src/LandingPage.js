@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
+import './LandingPage.css'
 
 function FlashcardGenerator() {
   const [selectedOption, setSelectedOption] = useState('whole');

@@ -19,6 +19,19 @@ function Flashcard() {
 
   const currentCard = data[currentCardIndex];
 
+  const getData = () => {
+    fetch('put/api/here') // Replace '/api/flashcards' with the actual endpoint URL of your Flask backend
+    .then(response => response.json())
+    .then(data => {
+      // Update the flashcard data in your component state
+      setData(data);
+      setCurrentCardIndex(0); // Reset the current card index to the first card
+    })
+    .catch(error => {
+      console.error('Error fetching flashcard data:', error);
+    });
+  };
+
   return (
     <div>
       <div className="flashcard" onClick={handleCardClick}>
