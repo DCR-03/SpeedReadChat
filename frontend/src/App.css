@@ -7,12 +7,6 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -28,11 +22,58 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.TitleStyle {
+  color: black;
+  position: absolute;
+  top: 40px;
+  left: 50px;
+  font-size: 50px; 
+
+}
+
+.dropzone {
+  position: absolute;
+  width: 500px;
+  height: 300px;
+  border: 2px dashed #ccc;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dropzone.active {
+  border-color: #6c63ff;
+}
+
+.radio-group {
+  margin-top: 20px; /* Added margin-top to create space below the dropzone */
+  display: flex;
+  flex-direction: column; /* Changed to column direction for vertical alignment */
+}
+
+.radio-group label {
+  margin-bottom: 10px; /* Added margin-bottom for spacing between radio buttons */
+}
+
+.chapter-inputs {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.chapter-inputs label {
+  margin-right: 5px;
+}
+
+.chapter-inputs input {
+  width: 30px;
+}
+
+.generate-button {
+  margin-top: 20px;
 }
