@@ -52,9 +52,9 @@ function FlashcardGenerator() {
     let path = 'frontend/src/Flashcard.js';
     navigate(path);
    
-    /*
+    
     // Send the FormData object as part of a POST request to your Flask backend
-    fetch('/your-flask-api-endpoint', {
+    fetch('localhost:5000/flask/parse', {
       method: 'POST',
       body: formData,
     })
@@ -66,7 +66,7 @@ function FlashcardGenerator() {
       .catch((error) => {
         // Handle any errors
         console.error(error);
-      });*/
+      });
   };
 
   const TestGenerate = (selectedOption, startChapter, endChapter) => {
