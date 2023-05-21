@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Flashcard.css';
 
 function Flashcard() {
@@ -11,13 +11,22 @@ function Flashcard() {
     { text: 'Flashcard 3' },
   ];
 
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+
+  const handleCardClick = () => {
+    setCurrentCardIndex((prevIndex) => (prevIndex + 1) % data.length);
+  };
+
+  const currentCard = data[currentCardIndex];
+
   return (
     <div>
-      {data.map((card, index) => (
-        <div key={index} className="flashcard">
-          {card.text}
-        </div>
-      ))}
+      <div className="flashcard" onClick={handleCardClick}>
+        {currentCard.text}
+      </div>
+      <div className="counter">
+        {currentCardIndex + 1}/{data.length}
+      </div>
     </div>
   );
 }
