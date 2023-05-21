@@ -1,10 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDropzone } from 'react-dropzone';
 
 function FlashcardGenerator() {
   const [selectedOption, setSelectedOption] = useState('whole');
   const [startChapter, setStartChapter] = useState('');
   const [endChapter, setEndChapter] = useState('');
-  const [selectedPDF, setSelectedPDF] = useState(null); 
+  const [selectedPDF, setSelectedPDF] = useState(null);
+  const [isFileUploaded, setIsFileUploaded] = useState(false);
+  const navigate = useNavigate();
+
+  const onDrop = useCallback((acceptedFiles) => {
+    const file = acceptedFiles[0]; // Access the selected file
+    setSelectedPDF(file); // Store the selected file in the state
+    setIsFileUploaded(true);
+    console.log(file);
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -28,14 +41,18 @@ function FlashcardGenerator() {
     // Append other data to the FormData object if needed
     formData.append('selectedOption', selectedOption);
 
-    if (selectedOption === 'Certain') {
+    if (selectedOption === 'certain') {
       formData.append('startChapter', startChapter);
       formData.append('endChapter', endChapter);
     }
     for (var pair of formData.entries()) {
       console.log(pair[0]+ ', ' + pair[1]); 
     }
+
+    let path = 'frontend/src/Flashcard.js';
+    navigate(path);
    
+    /*
     // Send the FormData object as part of a POST request to your Flask backend
     fetch('/your-flask-api-endpoint', {
       method: 'POST',
@@ -49,7 +66,7 @@ function FlashcardGenerator() {
       .catch((error) => {
         // Handle any errors
         console.error(error);
-      });
+      });*/
   };
 
   const TestGenerate = (selectedOption, startChapter, endChapter) => {
@@ -70,9 +87,15 @@ function FlashcardGenerator() {
   return (
     <div>
       <h1>Speed Read Chat</h1>
-      <div>
-        <label htmlFor="pdfUpload">Upload PDF:</label>
-        <input type="file" id="pdfUpload" accept=".pdf" onChange={handlePDFUpload}/>
+      <div {...getRootProps()} className={`dropzone ${isDragActive ? 'active' : ''}`}>
+        <input {...getInputProps()} />
+        {isFileUploaded ? ( // Check if file is uploaded
+          <p> {selectedPDF.name} uploaded successfully!</p>
+        ) : isDragActive ? (
+          <p>Drop the PDF file here...</p>
+        ) : (
+          <p>Drag and drop a PDF file here, or click to select a file</p>
+        )}
       </div>
       <div>
         <input
