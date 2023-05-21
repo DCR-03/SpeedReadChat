@@ -52,9 +52,9 @@ function FlashcardGenerator() {
     let path = 'frontend/src/Flashcard.js';
     navigate(path);
    
-    
+    console.log("sending post request")
     // Send the FormData object as part of a POST request to your Flask backend
-    fetch('localhost:5000/flask/parse', {
+    fetch('http://127.0.0.1:5000/flask/parse', {
       method: 'POST',
       body: formData,
     })
@@ -67,6 +67,7 @@ function FlashcardGenerator() {
         // Handle any errors
         console.error(error);
       });
+      console.log("post request finished")
   };
 
   const TestGenerate = (selectedOption, startChapter, endChapter) => {
@@ -117,10 +118,10 @@ function FlashcardGenerator() {
           checked={selectedOption === 'certain'}
           onChange={handleOptionChange}
         />
-        <label htmlFor="certainChapters">Use Certain Chapters</label>
+        <label htmlFor="certainChapters">Use Certain Pages</label>
         {selectedOption === 'certain' && (
           <div>
-            <label htmlFor="startChapter">Chapters</label>
+            <label htmlFor="startChapter">Page</label>
             <input
               type="text"
               id="startChapter"
